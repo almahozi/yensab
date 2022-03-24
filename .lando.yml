@@ -1,0 +1,48 @@
+name: yensab
+services:
+  php:
+    type: php:8.0
+    via: nginx
+    webroot: public
+    composer_version: 2-latest
+    config:
+      vhosts: nginx.conf
+    build_as_root:
+      - curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
+      - apt-get install -y nodejs
+    run:
+      - php artisan migrate
+
+  mysql:
+    type: mysql:8.0
+    creds:
+      user: lando
+      password: lando
+      database: database
+
+  redis:
+    type: redis
+
+  mailhog:
+    type: mailhog
+    portforward: false
+    hogfrom:
+      - php
+
+tooling:
+  php:
+    service: php
+  composer:
+    service: php
+  npm:
+    service: php
+
+proxy:
+  php_nginx:
+    - yensab.localhost
+  mailhog:
+    - mailhog.localhost
+
+excludes:
+  - vendor
+  - node_modules
