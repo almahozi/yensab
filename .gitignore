@@ -1,6 +1,8 @@
 /node_modules
 /public/hot
 /public/storage
+public/js/app.js
+public/css/app.css
 /storage/*.key
 /vendor
 .env
@@ -13,5 +15,3 @@ yarn-error.log
 /.idea
 /.vscode
 .lando.yml
-/public/js/app.js
-/public/css/app.css
