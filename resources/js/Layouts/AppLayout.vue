@@ -37,17 +37,24 @@ const logout = () => {
 
         <div class="flex">
             <!-- Left Column -->
-            <div class="flex-shrink bg-teal-800">
+            <div class="flex-shrink w-60 bg-teal-800">
                 <!-- Logo -->
                 <div class="bg-teal-900 flex items-center justify-center max-w-xs h-20">
-                    <Link :href="route('dashboard')" class="w-fit">
-                        <JetApplicationMark class="object-contain w-1/2" />
+                    <Link :href="route('dashboard')">
+                        <JetApplicationMark />
                     </Link>
                 </div>
                 <!-- Vertical Nav -->
                 <div>
                     <VerticalNavItem>
-                        Teams
+                        <template #icon>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="white">
+                              <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                            </svg>
+                        </template>
+                        <template #text>
+                            <span class="px-3">Teams</span>
+                        </template>
                     </VerticalNavItem>
                 </div>
             </div>
@@ -56,11 +63,9 @@ const logout = () => {
             <div class="flex-grow min-h-screen bg-gray-100">
                 <nav class="bg-white border-b border-gray-100">
                     <!-- Primary Navigation Menu -->
-                    <div>
+                    <div class="px-4">
                         <div class="flex justify-between h-20">
                             <div class="flex">
-                                
-
                                 <!-- Navigation Links -->
                                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                     <JetNavLink :href="route('dashboard')" :active="route().current('dashboard')">
