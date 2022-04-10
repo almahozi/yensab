@@ -56,6 +56,19 @@ const logout = () => {
                             <span class="px-3">Teams</span>
                         </template>
                     </VerticalNavItem>
+                    <div v-for="team in $page.props.user.all_teams" :key="team.id" class="pl-14 hover:bg-teal-900">
+                        <form @submit.prevent="switchToTeam(team)">
+                            <button v-if="team.id == $page.props.user.current_team_id" class="text-white text-sm font-bold w-full text-left" type="submit">{{ team.name }}</button>
+                            <button v-else class="text-white text-sm w-full text-left" type="submit">{{ team.name }}</button>
+                        </form>
+                    </div>
+                    <div class="text-white text-sm ml-14 mt-6 flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 pr-1" viewBox="0 0 20 20" fill="white">
+                          <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                        </svg>
+                        <Link :href="route('teams.create')">Create a team</Link>
+                    </div>
+                    
                 </div>
             </div>
 
@@ -71,10 +84,10 @@ const logout = () => {
                                     <JetNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                         Tasks
                                     </JetNavLink>
-                                    <JetNavLink :href="route('dashboard')">
-                                        Members
+                                    <JetNavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                                        Files
                                     </JetNavLink>
-                                    <JetNavLink :href="route('dashboard')">
+                                    <JetNavLink :href="route('teams.show', $page.props.user.current_team)" :active="route().current('teams.show')">
                                         Team Settings
                                     </JetNavLink>
                                 </div>
