@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('user_id');       // creator
-            $table->foreignId('assignee_id');   // assignee
+            $table->foreignId('assignee_id');   // current lassignee
             $table->foreignId('team_id');
             $table->timestamps();
             $table->timestamp('closed_at')->nullable();
