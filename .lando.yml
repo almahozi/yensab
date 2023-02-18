@@ -19,6 +19,7 @@ services:
       user: lando
       password: lando
       database: database
+    portforward: 3307
 
   redis:
     type: redis
