@@ -13,6 +13,7 @@
         "laravel/jetstream": "2.x-dev",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
+        "nunomaduro/termwind": "^1.15",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
