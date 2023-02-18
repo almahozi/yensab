@@ -10,6 +10,11 @@ import JetNavLink from '@/Jetstream/NavLink.vue';
 import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink.vue';
 import VerticalNavItem from '@/Components/VerticalNavItem.vue';
 
+import 'primevue/resources/primevue.min.css';
+import 'primevue/resources/themes/saga-blue/theme.css';
+import 'primeicons/primeicons.css';
+
+
 defineProps({
     title: String,
 });
@@ -40,7 +45,7 @@ const logout = () => {
             <div class="flex-shrink w-60 bg-teal-800">
                 <!-- Logo -->
                 <div class="bg-teal-900 flex items-center justify-center max-w-xs h-20">
-                    <Link :href="route('dashboard')">
+                    <Link :href="route('tasks.index', $page.props.user.current_team)">
                         <JetApplicationMark />
                     </Link>
                 </div>
