@@ -9,6 +9,8 @@ class Task extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     /**
      * Get task creator.
      */
@@ -39,5 +41,10 @@ class Task extends Model
     public function team()
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function updates()
+    {
+        return $this->hasMany(Update::class);
     }
 }

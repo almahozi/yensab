@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Task;
 use App\Models\User;
+use App\Models\Team;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TaskPolicy
@@ -16,9 +17,9 @@ class TaskPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user, Team $team)
     {
-        //
+        return $team->hasUser($user);
     }
 
     /**
@@ -30,7 +31,7 @@ class TaskPolicy
      */
     public function view(User $user, Task $task)
     {
-        //
+        return $team->hasUser($user);
     }
 
     /**
@@ -41,7 +42,7 @@ class TaskPolicy
      */
     public function create(User $user)
     {
-        //
+        return isset($user);
     }
 
     /**

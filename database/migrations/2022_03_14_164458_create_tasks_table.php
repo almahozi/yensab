@@ -15,10 +15,12 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('title');
             $table->foreignId('user_id');       // creator
-            $table->foreignId('assignee_id');   // current lassignee
+            $table->foreignId('assignee_id');   // current assignee
             $table->foreignId('team_id');
+            $table->date('due_date')->nullable();
+            $table->string('status')->default('In Progress');
             $table->timestamps();
             $table->timestamp('closed_at')->nullable();
 

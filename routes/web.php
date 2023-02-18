@@ -32,10 +32,13 @@ Route::middleware([
 ])->group(function () {
 
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
+        //return Inertia::render('Dashboard');
+        return redirect(route('tasks.index', ['team' => auth()->user()->currentTeam]), 303);
     })->name('dashboard');
 
     Route::controller(TaskController::class)->group(function () {
         Route::get('teams/{team}/tasks', 'index')->name('tasks.index');
+        Route::get('teams/{team}/tasks/create', 'create')->name('tasks.create');
+        Route::post('teams/{team}/tasks', 'store')->name('tasks.store');
     });
 });

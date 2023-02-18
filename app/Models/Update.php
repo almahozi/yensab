@@ -9,6 +9,8 @@ class Update extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     /**
      * Get update attachments.
      * 
@@ -16,5 +18,10 @@ class Update extends Model
     public function attachments()
     {
         return $this->hasMany(Attachment::class);
+    }
+
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
     }
 }

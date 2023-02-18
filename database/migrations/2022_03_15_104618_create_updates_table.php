@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('updates', function (Blueprint $table) {
             $table->id();
             $table->text('message');
+            $table->foreignId('task_id');
             $table->timestamps();
         });
     }
