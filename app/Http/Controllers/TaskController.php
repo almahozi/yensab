@@ -30,7 +30,7 @@ class TaskController extends Controller
         $data = $request->validated();
         $user = $request->user();
         $team = $request->user()->currentTeam;
-        $dueDate = $data['dueDate'] ? date('Y-m-d', strtotime($data['dueDate'])) : null;
+        $dueDate = isset($data['dueDate']) ? date('Y-m-d', strtotime($data['dueDate'])) : null;
         $task = Task::create([
             'title'         =>  $data['title'],
             'user_id'       =>  $user->id,
