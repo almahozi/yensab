@@ -83,7 +83,11 @@ const logout = () => {
                     <!-- Primary Navigation Menu -->
                     <div class="px-4">
                         <div class="flex justify-between h-20">
-                            <div class="flex">
+                            <div class="flex w-full">
+                                <!-- Current Team Name -->
+                                <div class="flex flex-col justify-center w-1/6">
+                                    <span class="font-bold text-2xl"># {{ $page.props.user.current_team.name }}</span>
+                                </div>
                                 <!-- Navigation Links -->
                                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                     <JetNavLink :href="route('tasks.index', $page.props.user.current_team)" :active="route().current('tasks.index')">
