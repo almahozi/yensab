@@ -15,13 +15,20 @@ class TaskController extends Controller
     {
         $this->authorize('viewAny', [Task::class, $team]);
         $tasks = $team->tasks()->with('assignee')->get();
-        return Inertia::render('Tasks/TaskList', ['team' => $team, 'tasks' => $tasks]);
+        return Inertia::render('Tasks/Index', ['team' => $team, 'tasks' => $tasks]);
 
     }
 
-    public function create(Request $request)
+    public function show(Team $team, Task $task)
     {
-        $team = $request->user()->currentTeam;
+        $this->authorize('view', $task);
+        $updates = $task->updates()->with('user')->get();
+        return Inertia::render('Tasks/Show', ['task' => $task, 'updates' => $updates, 'team' => $team]);
+    }
+
+    public function create(Request $request, Team $team)
+    {
+        $this->authorize('create', [Task::class, $team]);
         return Inertia::render('Tasks/Create', ['team' => $team, 'members' => $team->allUsers()]);
     }
 
@@ -41,7 +48,8 @@ class TaskController extends Controller
 
         $update = Update::create([
             'message' => $data['description'],
-            'task_id' => $task->id
+            'task_id' => $task->id,
+            'user_id' => $user->id
         ]);
 
         return redirect()->route('tasks.index', $team);

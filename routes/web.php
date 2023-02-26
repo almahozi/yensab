@@ -39,6 +39,7 @@ Route::middleware([
     Route::controller(TaskController::class)->group(function () {
         Route::get('teams/{team}/tasks', 'index')->name('tasks.index');
         Route::get('teams/{team}/tasks/create', 'create')->name('tasks.create');
+        Route::get('teams/{team}/tasks/{task}', 'show')->name('tasks.show');
         Route::post('teams/{team}/tasks', 'store')->name('tasks.store');
     });
 });
