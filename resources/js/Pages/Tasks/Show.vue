@@ -4,6 +4,7 @@ import { useForm } from '@inertiajs/inertia-vue3';
 import Card from 'primevue/card';
 import Editor from 'primevue/editor';
 import Divider from 'primevue/divider';
+import JetButton from '@/Jetstream/Button.vue';
 
 
 const props = defineProps({
@@ -15,15 +16,22 @@ const props = defineProps({
 const form = useForm({
     message: null
 });
+
+function submit() {
+	form.post(route('updates.store', props.task), {
+		'task': props.task
+	});
+}
 </script>
 
 <template>
     <AppLayout title="">
         <div class="flex justify-center">
-            <div>
+            <!-- Updates -->
+            <div class="w-1/2">
                 <div class="mb-4"><span class="text-2xl">{{ task.title }}</span></div>
-                <div class="mb-12">
-                    <Card v-for="update in props.updates">
+                <div v-for="update in props.updates" class="mb-12">
+                    <Card>
                         <template #content>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center">
@@ -39,7 +47,10 @@ const form = useForm({
                 </div>
                 
                 <form @submit.prevent="submit">
-                    <Editor id="description" class="w-full" v-model="form.message" editorStyle="height: 400px" />
+                    <div class="mb-12"><Editor id="message" class="w-full" v-model="form.message" editorStyle="height: 400px" /></div>
+                    <JetButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                        Send
+                    </JetButton>
                 </form>
             </div> 
             <div>

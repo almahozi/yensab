@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UpdateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,5 +42,9 @@ Route::middleware([
         Route::get('teams/{team}/tasks/create', 'create')->name('tasks.create');
         Route::get('teams/{team}/tasks/{task}', 'show')->name('tasks.show');
         Route::post('teams/{team}/tasks', 'store')->name('tasks.store');
+    });
+
+    Route::controller(UpdateController::class)->group(function () {
+        Route::post('tasks/{task}/updates/create', 'store')->name('updates.store');
     });
 });
