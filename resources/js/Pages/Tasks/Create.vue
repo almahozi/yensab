@@ -33,7 +33,7 @@ function submit() {
 <template>
 	<AppLayout title="Create Task">
 
-		<div class="flex justify-center pt-12">
+		<div class="flex justify-center">
 			<Card class="w-3/5">
 				<template #title>
 					New Task
