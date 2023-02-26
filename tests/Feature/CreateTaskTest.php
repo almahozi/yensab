@@ -9,20 +9,19 @@ use App\Models\User;
 
 class CreateTaskTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
+    use RefreshDatabase;
+
     public function test_tasks_can_be_created()
     {
         $this->actingAs($user = User::factory()->withPersonalTeam()->create());
         $team = $user->personalTeam();
 
-        $response = $this->post('teams/' . $team->id . '/tasks', [
+        $response = $this->post(route('tasks.store', $team->id), [
             'title'         =>  'Test Task',
-            'assignee'      =>  $user->id,
-            'description'   =>  'This is a test task!'
+            'user_id'       =>  $user->id,
+            'assignee_id'   =>  $user->id,
+            'description'   =>  'This is a test task!',
+            'team_id'       =>  $team->id
         ]);
 
         $this->assertCount(1, $team->fresh()->tasks);
