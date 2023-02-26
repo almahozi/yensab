@@ -31,7 +31,7 @@ class TaskPolicy
      */
     public function view(User $user, Task $task)
     {
-        return $team->hasUser($user);
+        return $task->team->hasUser($user);
     }
 
     /**
@@ -40,9 +40,9 @@ class TaskPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user, Team $team)
     {
-        return isset($user);
+        return $team->hasUser($user);
     }
 
     /**
