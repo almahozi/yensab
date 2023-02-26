@@ -7,7 +7,7 @@ use App\Models\Task;
 use App\Models\Team;
 use App\Models\Update;
 use Inertia\Inertia;
-use App\Http\Requests\createTaskRequest;
+use App\Http\Requests\CreateTaskRequest;
 
 class TaskController extends Controller
 {
@@ -32,7 +32,7 @@ class TaskController extends Controller
         return Inertia::render('Tasks/Create', ['team' => $team, 'members' => $team->allUsers()]);
     }
 
-    public function store(createTaskRequest $request)
+    public function store(CreateTaskRequest $request)
     {
         $data = $request->validated();
         $user = $request->user();
