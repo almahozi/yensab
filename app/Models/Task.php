@@ -12,9 +12,9 @@ class Task extends Model
     protected $guarded = [];
 
     /**
-     * Get task creator.
+     * Get task creator / author.
      */
-    public function creator()
+    public function author()
     {
         return $this->belongsTo(User::class);
     }
