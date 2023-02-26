@@ -15,7 +15,7 @@ class createTaskRequest extends FormRequest
      */
     public function authorize(Task $task, Team $team)
     {
-        return $this->user()->can('create', [$task, $team]);
+        return $this->user()->can('create', $team);
     }
 
     /**
