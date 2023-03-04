@@ -23,7 +23,12 @@ class TaskController extends Controller
     {
         $this->authorize('view', $task);
         $updates = $task->updates()->with('user')->get();
-        return Inertia::render('Tasks/Show', ['task' => $task, 'updates' => $updates, 'team' => $team]);
+        $task = Task::where('id', $task->id)->with(['author', 'assignee'])->first();
+        return Inertia::render('Tasks/Show', [
+            'task' => $task,
+            'updates' => $updates,
+            'team' => $team,
+        ]);
     }
 
     public function create(Request $request, Team $team)
