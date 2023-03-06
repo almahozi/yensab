@@ -16,12 +16,11 @@ class CreateTaskTest extends TestCase
         $this->actingAs($user = User::factory()->withPersonalTeam()->create());
         $team = $user->personalTeam();
 
-        $response = $this->post(route('tasks.store', $team->id), [
-            'title'         =>  'Test Task',
-            'user_id'       =>  $user->id,
-            'assignee_id'   =>  $user->id,
-            'description'   =>  'This is a test task!',
-            'team_id'       =>  $team->id
+        $response = $this->post(route('tasks.store', $team), [
+            'title'       =>  'Test Task',
+            'dueDate'     => date('Y-m-d'),
+            'assignee'    =>  $user->id,
+            'description' =>  'This is a test task!',
         ]);
 
         $this->assertCount(1, $team->fresh()->tasks);
