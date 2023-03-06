@@ -31,6 +31,12 @@ class DatabaseSeeder extends Seeder
             'personal_team' => true,
         ]);
 
-        User::factory(10)->withPersonalTeam()->create();
+        $team = Team::Create([
+            'name' => 'Budget',
+            'user_id' => $user->id,
+            'personal_team' => false,
+        ]);
+
+        $user = User::factory(10)->withPersonalTeam()->create();
     }
 }
