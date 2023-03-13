@@ -39,10 +39,18 @@ class UpdateController extends Controller
     {
         $data = $request->validated();
         $update = Update::create([
-            'message' => $data['message'],
-            'task_id' => $task->id,
-            'user_id' => $request->user()->id
+            'message'       => $data['message'],
+            'task_id'       => $task->id,
+            'user_id'       => $request->user()->id,
+            'assignee_id'   => $data['assignee']
         ]);
+
+        if(isset($data['assignee']))
+        {
+            $task->assignee()->associate($data['assignee']);
+            $task->save();
+        }
+        
 
         return redirect()->route('tasks.show', [$task->team, $task]);
     }

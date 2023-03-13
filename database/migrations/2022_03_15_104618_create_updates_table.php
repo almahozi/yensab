@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('message');
             $table->foreignId('task_id');
             $table->foreignId('user_id');
+            $table->foreignId('assignee_id')->nullable();   // used to keep track of assignee changes.
             $table->timestamps();
         });
     }
