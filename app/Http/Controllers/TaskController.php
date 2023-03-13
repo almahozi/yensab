@@ -22,12 +22,14 @@ class TaskController extends Controller
     public function show(Team $team, Task $task)
     {
         $this->authorize('view', $task);
-        $updates = $task->updates()->with('user')->get();
+        $updates = $task->updates()->with('user')->with('assignee')->get();
         $task = Task::where('id', $task->id)->with(['author', 'assignee'])->first();
+        $members = $team->allUsers();
         return Inertia::render('Tasks/Show', [
             'task' => $task,
             'updates' => $updates,
             'team' => $team,
+            'members' => $members
         ]);
     }
 
