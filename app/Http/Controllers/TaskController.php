@@ -8,6 +8,8 @@ use App\Models\Team;
 use App\Models\Update;
 use Inertia\Inertia;
 use App\Http\Requests\CreateTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
+use App\Support\Constant;
 
 class TaskController extends Controller
 {
@@ -26,10 +28,11 @@ class TaskController extends Controller
         $task = Task::where('id', $task->id)->with(['author', 'assignee'])->first();
         $members = $team->allUsers();
         return Inertia::render('Tasks/Show', [
-            'task' => $task,
-            'updates' => $updates,
-            'team' => $team,
-            'members' => $members
+            'task'     => $task,
+            'updates'  => $updates,
+            'team'     => $team,
+            'members'  => $members,
+            'statuses' => Constant::STATUSES
         ]);
     }
 
@@ -60,5 +63,16 @@ class TaskController extends Controller
         ]);
 
         return redirect()->route('tasks.index', $team);
+    }
+
+    public function update(UpdateTaskRequest $request, Team $team, Task $task)
+    {
+        $data = $request->validated();
+        $task->title = $data['title'];
+        $task->status = $data['status'];
+        $task->due_date = date('Y-m-d', strtotime($data['dueDate']));
+        $task->save();
+
+        return redirect()->route('tasks.show', [$task->team, $task]);
     }
 }

@@ -42,6 +42,7 @@ Route::middleware([
         Route::get('teams/{team}/tasks/create', 'create')->name('tasks.create');
         Route::get('teams/{team}/tasks/{task}', 'show')->name('tasks.show');
         Route::post('teams/{team}/tasks', 'store')->name('tasks.store');
+        Route::patch('teams/{team}/tasks/{task}', 'update')->name('tasks.update');
     });
 
     Route::controller(UpdateController::class)->group(function () {

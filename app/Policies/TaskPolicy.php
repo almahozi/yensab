@@ -54,7 +54,8 @@ class TaskPolicy
      */
     public function update(User $user, Task $task)
     {
-        //
+        return $user->ownsTeam($task->team) ||
+               $user->hasTeamPermission($task->team, 'task:update');
     }
 
     /**

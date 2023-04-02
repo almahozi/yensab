@@ -8,6 +8,10 @@ import Divider from 'primevue/divider';
 import JetButton from '@/Jetstream/Button.vue';
 import Checkbox from 'primevue/checkbox';
 import Dropdown from 'primevue/dropdown';
+import Button from 'primevue/button';
+import Dialog from 'primevue/dialog';
+import InputText from 'primevue/inputtext';
+import Calendar from 'primevue/calendar';
 
 
 const props = defineProps({
@@ -16,22 +20,40 @@ const props = defineProps({
 	task: Object,
     updates: Object,
     author: Object,
-    errors: Object
+    errors: Object,
+    statuses: Object
 });
 
-const form = useForm({
+console.log(props.statuses);
+
+const createUpdateForm = useForm({
     message: null,
     assignee: null,
     reassign: ref(false)
 });
 
-function submit() {
-	form.post(route('updates.store', props.task), {
+const editTaskForm = useForm({
+    title: props.task.title,
+    dueDate: props.task.due_date,
+    status: props.task.status,
+});
+
+let showEditDialog = ref(false);
+
+
+function submitCreateUpdateForm() {
+	createUpdateForm.post(route('updates.store', props.task), {
 		'task': props.task
 	});
 
     // empty message field after submitting.
     //form.message = '';
+}
+
+function submitEditTaskForm() {
+    editTaskForm.patch(route('tasks.update', [props.team, props.task]), {
+        onSuccess: () => showEditDialog.value = false,
+    });
 }
 
 </script>
@@ -69,18 +91,18 @@ function submit() {
                         </Card>
                     </div>
                     
-                    <form @submit.prevent="submit">
-                        <div><Editor id="message" class="w-full" v-model="form.message" editorStyle="height: 400px" /></div>
+                    <form @submit.prevent="submitCreateUpdateForm">
+                        <div><Editor id="message" class="w-full" v-model="createUpdateForm.message" editorStyle="height: 400px" /></div>
                         <div class="text-red-700 mb-12" v-if="errors.message">{{ errors.message }}</div>
                         
                         <div class="mt-10 flex items-center">
-                            <Checkbox inputId="reassign" v-model="form.reassign" :binary="true" />
+                            <Checkbox inputId="reassign" v-model="createUpdateForm.reassign" :binary="true" />
                             <label class="ml-1 mr-1" for="reassign">Reassign Task to: </label>
-                            <Dropdown :disabled="!form.reassign" id="assignee" class="w-2/6" v-model="form.assignee" :options="members" optionLabel="name" optionValue="id" placeholder="" :filter="true" />
+                            <Dropdown :disabled="!createUpdateForm.reassign" id="assignee" class="w-2/6" v-model="createUpdateForm.assignee" :options="members" optionLabel="name" optionValue="id" placeholder="" :filter="true" />
                         </div>
                         <div class="text-red-700" v-if="errors.assignee">{{ errors.assignee }}</div>
 
-                        <JetButton class="mt-10 mb-5" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                        <JetButton class="mt-10 mb-5" :class="{ 'opacity-25': createUpdateForm.processing }" :disabled="createUpdateForm.processing">
                             Send
                         </JetButton>
                     </form>
@@ -116,6 +138,36 @@ function submit() {
                             </div>
                         </template>
                     </Card>
+                    <div class="mt-10">
+                        <Button label="EDIT" severity="secondary" @click="showEditDialog = true" />
+                    </div>
+
+                    <!-- Edit Task Dialog -->
+                    <Dialog v-model:visible="showEditDialog" modal header="Edit Task" :style="{ width: '30vw' }">
+                        <form>
+                            <div class="flex flex-col">
+                                <label class="text-lg pr-10">Title</label>
+                                <InputText id="title" class="w-full" type="text" v-model="editTaskForm.title" />
+                                <div class="text-red-700" v-if="errors.title">{{ errors.title }}</div>
+                            </div>
+
+                            <div class="flex flex-col mt-10">
+                                <label class="text-lg pr-10">Status</label>
+                                <Dropdown id="status" class="w-full" v-model="editTaskForm.status" :options="statuses" optionLabel="name" optionValue="name" :filter="false" />
+                                <div class="text-red-700" v-if="errors.status">{{ errors.title }}</div>
+                            </div>
+
+                            <div class="flex flex-col mt-10">
+                                <label class="text-lg pr-10">Due Date</label>
+                                <Calendar id="dueDate" v-model="editTaskForm.dueDate" dateFormat="d/m/yy" />
+                                <div class="text-red-700" v-if="errors.dueDate">{{ errors.dueDate }}</div>
+                            </div>
+                        </form>
+                        <template #footer>
+                            <Button label="Cancel" @click="showEditDialog = false" text />
+                            <Button label="Update" :class="{ 'opacity-25': editTaskForm.processing }" :disabled="editTaskForm.processing" @click="submitEditTaskForm(showEditDialog)" autofocus />
+                        </template>
+                    </Dialog>
                 </div>
             </div>
         </div>
