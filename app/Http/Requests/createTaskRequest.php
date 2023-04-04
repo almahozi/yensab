@@ -35,7 +35,7 @@ class CreateTaskRequest extends FormRequest
                                 // Assignee must be either team owner or team member.
                                 // The 'when' rule can be found here: https://github.com/laravel/framework/pull/38361 
                                 Rule::when($this->assignee != $team->owner->id,
-                                    Rule::exists('team_user', 'user_id')->where(function ($query) {
+                                    Rule::exists('team_user', 'user_id')->where(function ($query) use ($team) {
                                         return $query->where('team_id', $team->id);
                                     })
                                 )
