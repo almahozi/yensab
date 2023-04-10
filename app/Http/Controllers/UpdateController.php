@@ -6,6 +6,7 @@ use App\Models\Update;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateUpdateRequest;
 use App\Models\Task;
+use App\Models\Attachment;
 
 class UpdateController extends Controller
 {
@@ -38,6 +39,7 @@ class UpdateController extends Controller
     public function store(CreateUpdateRequest $request, Task $task)
     {
         $data = $request->validated();
+
         $update = Update::create([
             'message'       => $data['message'],
             'task_id'       => $task->id,
@@ -51,6 +53,19 @@ class UpdateController extends Controller
             $task->save();
         }
         
+        if(isset($data['attachments']))
+        {
+            foreach($data['attachments'] as $file)
+            {
+                $fileName = $file->getClientOriginalName();
+                $attachment = $file->storeAs('attachments/' . $update->id, $fileName);
+                Attachment::create([
+                    'name'      => $fileName,
+                    'url'       => $attachment,
+                    'update_id' => $update->id
+                ]);
+            }
+        }
 
         return redirect()->route('tasks.show', [$task->team, $task]);
     }

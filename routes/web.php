@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UpdateController;
+use App\Http\Controllers\AttachmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,5 +48,9 @@ Route::middleware([
 
     Route::controller(UpdateController::class)->group(function () {
         Route::post('tasks/{task}/updates/create', 'store')->name('updates.store');
+    });
+
+    Route::controller(AttachmentController::class)->group(function () {
+        Route::get('attachments/{attachment}', 'show')->name('attachments.show');
     });
 });

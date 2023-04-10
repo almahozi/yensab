@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 use Illuminate\Validation\Rule;
-
+use Illuminate\Validation\Rules\File;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateUpdateRequest extends FormRequest
@@ -35,9 +35,8 @@ class CreateUpdateRequest extends FormRequest
                                 Rule::exists('team_user', 'user_id')->where(function ($query) use ($team) {
                                     return $query->where('team_id', $team->id);
                                 })
-                            )
-
-                        ]
+                            )],
+            'attachments.*' => ['nullable', File::types(['pdf'])]
         ];
     }
 }

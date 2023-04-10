@@ -12,7 +12,7 @@ import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
 import Calendar from 'primevue/calendar';
-
+import FileUpload from 'primevue/fileupload';
 
 const props = defineProps({
 	team: Object,
@@ -24,12 +24,11 @@ const props = defineProps({
     statuses: Object
 });
 
-console.log(props.statuses);
-
 const createUpdateForm = useForm({
     message: null,
     assignee: null,
-    reassign: ref(false)
+    reassign: ref(false),
+    attachments: null
 });
 
 const editTaskForm = useForm({
@@ -43,11 +42,8 @@ let showEditDialog = ref(false);
 
 function submitCreateUpdateForm() {
 	createUpdateForm.post(route('updates.store', props.task), {
-		'task': props.task
+		// clear form fields
 	});
-
-    // empty message field after submitting.
-    //form.message = '';
 }
 
 function submitEditTaskForm() {
@@ -75,7 +71,6 @@ function submitEditTaskForm() {
                                             <span class="text-lg font-bold mt-3">{{ update.user.name }}</span>
                                             <span class="text-slate-800">{{ update.created_at }}</span>
                                         </div>
-                                        
                                     </div>
                                     <div class="flex flex-col w-3/12">
                                         <div v-if="update.assignee_id" class="flex items-center">
@@ -88,9 +83,18 @@ function submitEditTaskForm() {
                                 <Divider />
                                 <span v-html="update.message"></span>
                             </template>
+                            <template #footer>
+                                <div v-if="Object.keys(update.attachments).length">
+                                    <Divider />
+                                    <div v-for="attachment in update.attachments">
+                                        <a :href="route('attachments.show', attachment)">{{ attachment.name }}</a>
+                                    </div>
+                                </div>
+                            </template>
                         </Card>
                     </div>
                     
+                    <!-- New Update Form -->
                     <form @submit.prevent="submitCreateUpdateForm">
                         <div><Editor id="message" class="w-full" v-model="createUpdateForm.message" editorStyle="height: 400px" /></div>
                         <div class="text-red-700 mb-12" v-if="errors.message">{{ errors.message }}</div>
@@ -102,9 +106,17 @@ function submitEditTaskForm() {
                         </div>
                         <div class="text-red-700" v-if="errors.assignee">{{ errors.assignee }}</div>
 
-                        <JetButton class="mt-10 mb-5" :class="{ 'opacity-25': createUpdateForm.processing }" :disabled="createUpdateForm.processing">
-                            Send
-                        </JetButton>
+                        <div class="mt-10">
+                            <FileUpload accept=".pdf" :maxFileSize="5000000" :multiple="true" :showUploadButton="false" @select="createUpdateForm.attachments = $event.files">
+                                <template #empty>
+                                    <p>Drag and drop files to here to upload.</p>
+                                </template>
+                            </FileUpload>
+                            <!-- <input type="file" @input="createUpdateForm.attachments = $event.target.files" /> -->
+                        </div>
+                        <div class="text-red-700" v-if="errors.attachments">{{ errors.attachments }}</div>
+
+                        <JetButton class="mt-10 mb-5" :class="{ 'opacity-25': createUpdateForm.processing }" :disabled="createUpdateForm.processing">Send</JetButton>
                     </form>
                 </div>
 

@@ -9,12 +9,13 @@ class Attachment extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
 
     /**
      * Get parent update.
      */
-    public function update() 
+    public function ubdate() // looks like there is already an update method in Illuminate\Database\Eloquent\Model
     {
-        return $this->belongsTo(Update::class);
+        return $this->belongsTo(Update::class, 'update_id');
     }
 }
