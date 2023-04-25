@@ -52,6 +52,20 @@ function submitEditTaskForm() {
     });
 }
 
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    return date.toLocaleString('en-US', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+    timeZone: 'UTC'
+    });
+}
+
 </script>
 
 <template>
@@ -69,7 +83,7 @@ function submitEditTaskForm() {
                                         <img :src="update.user.profile_photo_url" :alt="update.user.name" class="rounded-full h-12 w-12 object-cover">
                                         <div class="flex flex-col ml-3">
                                             <span class="text-lg font-bold mt-3">{{ update.user.name }}</span>
-                                            <span class="text-slate-800">{{ update.created_at }}</span>
+                                            <span class="text-gray-500 text-xs">{{ formatDate(update.created_at) }}</span>
                                         </div>
                                     </div>
                                     <div class="flex flex-col w-3/12">
