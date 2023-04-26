@@ -44,6 +44,7 @@ let showEditDialog = ref(false);
 
 function submitCreateUpdateForm() {
 	createUpdateForm.post(route('updates.store', props.task), {
+        preserveScroll: true,
 		onSuccess: function() {
             createUpdateForm.reset();
             fileUpload.value.clear();
