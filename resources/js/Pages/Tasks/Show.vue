@@ -101,7 +101,7 @@ function formatDate(dateString) {
                                     </div>
                                 </div>
                                 <Divider />
-                                <span v-html="update.message"></span>
+                                <span class="prose" v-html="update.message"></span>
                             </template>
                             <template #footer>
                                 <div v-if="Object.keys(update.attachments).length">
