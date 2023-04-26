@@ -31,6 +31,8 @@ const createUpdateForm = useForm({
     attachments: null
 });
 
+const fileUpload = ref(null);
+
 const editTaskForm = useForm({
     title: props.task.title,
     dueDate: props.task.due_date,
@@ -42,7 +44,10 @@ let showEditDialog = ref(false);
 
 function submitCreateUpdateForm() {
 	createUpdateForm.post(route('updates.store', props.task), {
-		// clear form fields
+		onSuccess: function() {
+            createUpdateForm.reset();
+            fileUpload.value.clear();
+        },
 	});
 }
 
@@ -110,7 +115,7 @@ function formatDate(dateString) {
                     
                     <!-- New Update Form -->
                     <form @submit.prevent="submitCreateUpdateForm">
-                        <div><Editor id="message" class="w-full" v-model="createUpdateForm.message" editorStyle="height: 400px" /></div>
+                        <div><Editor class="w-full" v-model="createUpdateForm.message" editorStyle="height: 400px" /></div>
                         <div class="text-red-700 mb-12" v-if="errors.message">{{ errors.message }}</div>
                         
                         <div class="mt-10 flex items-center">
@@ -121,7 +126,7 @@ function formatDate(dateString) {
                         <div class="text-red-700" v-if="errors.assignee">{{ errors.assignee }}</div>
 
                         <div class="mt-10">
-                            <FileUpload accept=".pdf" :maxFileSize="5000000" :multiple="true" :showUploadButton="false" @select="createUpdateForm.attachments = $event.files">
+                            <FileUpload ref="fileUpload" accept=".pdf" :maxFileSize="5000000" :multiple="true" :showUploadButton="false" @select="createUpdateForm.attachments = $event.files">
                                 <template #empty>
                                     <p>Drag and drop files to here to upload.</p>
                                 </template>
