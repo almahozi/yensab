@@ -78,8 +78,8 @@ function formatDate(dateString) {
 <template>
     <AppLayout title="">
         <div class="flex flex-col items-center">
-            <div class="flex justify-start w-5/6 mb-4"><span class="text-2xl">{{ task.title }}</span></div>
-            <div class="flex w-5/6 justify-center">
+            <div class="flex justify-start w-11/12 mb-4"><span class="text-2xl">{{ task.title }}</span></div>
+            <div class="flex w-11/12 justify-center">
                 <!-- Updates -->
                 <div class="w-4/6 mr-20">
                     <div v-for="update in props.updates" class="mb-12">
