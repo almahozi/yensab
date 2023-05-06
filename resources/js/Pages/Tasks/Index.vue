@@ -5,12 +5,15 @@ import { Link } from '@inertiajs/inertia-vue3';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Card from 'primevue/card';
+import Tag from 'primevue/tag';
 
 
 const props = defineProps({
 	team: Object,
-	tasks: Object
+	tasks: Object,
+	statuses: Array
 });
+
 </script>
 
 <template>
@@ -31,7 +34,11 @@ const props = defineProps({
 									</template>
 								</Column>
 								<Column field="assignee.name" header="Assignee"></Column>
-								<Column field="status" header="Status"></Column>
+								<Column field="status" header="Status">
+									<template #body="slotProps">
+										<Tag :value="slotProps.data.status" :style="props.statuses.find(({ name }) => name === slotProps.data.status).style" />
+									</template>
+								</Column>
 								<Column field="due_date" header="Due Date"></Column>
 								<template #empty>
 									No records found.

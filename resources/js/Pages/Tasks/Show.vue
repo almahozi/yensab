@@ -13,6 +13,7 @@ import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
 import Calendar from 'primevue/calendar';
 import FileUpload from 'primevue/fileupload';
+import Tag from 'primevue/tag';
 
 
 const props = defineProps({
@@ -162,7 +163,7 @@ function formatDate(dateString) {
                             <Divider />
                             <div class="flex">
                                 <span class="w-3/5">Status</span>
-                                <span>{{ task.status }}</span>
+                                <Tag :style="props.statuses.find(({ name }) => name === task.status).style" :value="task.status" />
                             </div>
                             <Divider />
                             <div class="flex">

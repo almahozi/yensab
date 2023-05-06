@@ -17,7 +17,11 @@ class TaskController extends Controller
     {
         $this->authorize('viewAny', [Task::class, $team]);
         $tasks = $team->tasks()->with('assignee')->get();
-        return Inertia::render('Tasks/Index', ['team' => $team, 'tasks' => $tasks]);
+        return Inertia::render('Tasks/Index', [
+            'team' => $team,
+            'tasks' => $tasks,
+            'statuses' => Constant::STATUSES
+        ]);
 
     }
 
