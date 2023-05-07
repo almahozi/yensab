@@ -37,6 +37,6 @@ class DatabaseSeeder extends Seeder
             'personal_team' => false,
         ]);
 
-        $team->users()->attach(User::factory(10)->create(), ['role' => 'editor']);
+        $team->users()->attach(User::factory(10)->withPersonalTeam()->create(), ['role' => 'editor']);
     }
 }
