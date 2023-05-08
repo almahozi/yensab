@@ -1,3 +1,3 @@
 <template>
-	<img src="yensab-logo">
+	<img src="yensab-logo.png">
 </template>
