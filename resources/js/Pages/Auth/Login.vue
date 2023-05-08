@@ -36,14 +36,16 @@ const submit = () => {
         <template #logo>
             <Logo />
         </template>
-
+        Email: user@example.com <br />
+        Password: password
         <JetValidationErrors class="mb-4" />
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
         </div>
-
+        
         <form @submit.prevent="submit">
+            
             <div>
                 <JetLabel for="email" value="Email" />
                 <JetInput
