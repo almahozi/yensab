@@ -109,6 +109,7 @@ function formatDate(dateString) {
                                 <div v-if="Object.keys(update.attachments).length">
                                     <Divider />
                                     <div v-for="attachment in update.attachments">
+                                        <i class="pi pi-file mr-1" ></i>
                                         <a :href="route('attachments.show', attachment)">{{ attachment.name }}</a>
                                     </div>
                                 </div>
